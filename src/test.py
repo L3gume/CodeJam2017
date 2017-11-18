@@ -9,12 +9,13 @@ m = ms.match_simulator()
 g = gm.game_manager()
 np = sp.Season_Predictor()
 
-for i in range(0, 5):
+for i in range(0, 1):
     print(g.team_dict)
-    np.get_prediction(2016, 'NYY')
     g.start_new_season(2016 + i)
 
     t1, t2 = g.new_match()
-    print(t1)
-    print(t2)
-    print(play_match(t1, t2))
+    print(t1.team_id)
+    print(t2.team_id)
+    winner, loser = g.play_match(t1, t2)
+    print('winner: ' + winner.team_id)
+    print('loser: ' + loser.team_id)
