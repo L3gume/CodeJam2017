@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'betting_app',
+    'betting_app.apps.BettingAppConfig',
 ]
 
 MIDDLEWARE = [

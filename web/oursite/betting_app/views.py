@@ -4,7 +4,8 @@ from django.http import HttpResponse
 
 def index(request):
     return render(request, 'index.html')
-def betting(request):
-    return HttpResponse("Betting")
+def bidding(request):
+
+    return HttpResponse("Bidding")
 def start_league(request):
     return render(request, 'start.html')
