@@ -4,14 +4,14 @@ import match_simulator as ms
 import predict_season as ps
 
 class game_manager:
-    self.predictor = ps.predict_season()
-    self.team_dict = {}
-    self.past_seasons = []
-    self.current_season = []
-    self.current_pred_season = []
 
     def __init__(self):
         self.predictor = ps.predict_season()
+        self.team_dict = {}
+        self.past_seasons = []
+        self.current_season = []
+        self.current_pred_season = []
+
         f = open("../data/team_names.csv")
         reader = csv.reader(f, delimiter=',')
         self.team_dict = {rows[0]:rows[1] for rows in reader}
@@ -56,6 +56,10 @@ class game_manager:
 
         return team1, team2
 
+    # Gets the predicted season results of both teams and simulates the match
+    # Return:
+    # - winning team
+    # - losing team
     def play_match(self, team1, team2):
         # Get predicted results for those two teams
         # do the ting
