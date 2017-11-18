@@ -1,0 +1,2 @@
+model_checkpoint_path: "season_model"
+all_model_checkpoint_paths: "season_model"
