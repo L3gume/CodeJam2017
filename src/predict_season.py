@@ -181,6 +181,6 @@ class Season_Predictor:
 
         print(predictions)
 
-        pred = td.team_data(year, team, predictions[0][2], predictions[0][3], predictions[0][4])
+        pred = td.team_data(year, team, round(predictions[0][2]), round(predictions[0][3]), round(predictions[0][4]))
 
         return pred
