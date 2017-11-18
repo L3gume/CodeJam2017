@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link href = "{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+        <title>Dat Baseball App</title>
+    
+    
+    
+        {% block head %}{% endblock %}
+    
+        <title> {% block title %}{% endblock %}</title>
+    
+    </head>
+    <body>
+    
+    
+        {% block content %}{% endblock %}
+        
+    
+
+    
+        <script src = "{% static 'js/bootstrap.min.js' %}"></script>
+        {% block content1 %}{% endblock content1 %}
+    
+    </body>
+    </html>
