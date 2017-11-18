@@ -1,9 +1,10 @@
 import tensorflow as tf
 import numpy as np
+import team_data as td
 
 class Season_Predictor:
     def __init__(self):
-        self.NUM_ITER = 1000000
+        self.NUM_ITER = 500000
         self.BATCH_SIZE = 50
 
         self.LEARNING_RATE = 1e-4
@@ -12,7 +13,7 @@ class Season_Predictor:
         self.NUM_HIDDEN_NODES = 5
         self.NUM_OUTPUT_NODES = 5
 
-        self.DROPOUT_RATE = 0.5
+        self.DROPOUT_RATE = 1.0
 
         self.training_size = 2268
         self.testing_size = 567 #actual value is testing_size - 1 since we are using the "next year" as the label (and no next year for latest data)
@@ -24,6 +25,8 @@ class Season_Predictor:
 
         self.testing_data = []
         self.testing_labels = []
+
+        self.generate_training_and_testing_set()
 
     def next_batch(self, num, data, labels):
         idx = np.arange(0, len(data))
@@ -42,43 +45,51 @@ class Season_Predictor:
         last = lines[-1]
 
         index = 0
-        for line in lines:
-            last_team = 0
-            training = True
+        last_line = []
+        training = True
 
+        for line in lines:
             #Team, Year, Rank, Win, Loss
             line_data = [int(x) for x in line.rstrip(',\n').split(',')]
+
+            if last_line == []:
+                last_line = line_data
+                continue
             
-            if last_team == line_data[1]: #looking at same team
+            if last_line[0] == line_data[0]: #looking at same team
                 if training: #training set
+                    if self.training_data == []:
+                        self.training_data.append(last_line)
+
                     self.training_data.append(line_data)
 
                     if index != 0: #only add label if index is not 0
                         self.training_labels.append(line_data)
                 else: #testing set
+                    if self.testing_data == []:
+                        self.testing_data.append(last_line)
+
                     if line == last: #if on last line
                         self.testing_labels.append(line_data)
                     else:
                         self.testing_data.append(line_data)
-                        self.testing_labels.append(line_data)
-            else:
-                last_team = line_data[1]
 
+                        if index != 0:
+                            self.testing_labels.append(line_data)
+            else:
                 if (training) & (index > self.training_size): #last training example
                     training = False
-                    self.training_size = len(self.training_data)
                     index = 0
 
-                    self.testing_data[index] = line_data
-                elif training: #still within training
-                    self.training_data = self.training_data[:-1]
-                    self.training_data.append(line_data)
-                else: #within testing data
-                    self.training_data = self.testing_data[:-1]
-                    self.testing_data.append(line_data)
-
             index += 1
+            last_line = line_data
         f.close()
+
+        self.training_data = self.training_data[:-1]
+        self.testing_data = self.testing_data[:-1]
+
+        self.training_size = len(self.training_data)
+        self.testing_size = len(self.testing_data)
 
     def train(self):
         x_ = tf.placeholder(tf.float32, shape=[None, self.NUM_INPUT_NODES], name="x_")
@@ -126,8 +137,8 @@ class Season_Predictor:
 
         print('Cost: ', sess.run(cost, feed_dict={x_: self.testing_data, y_: self.testing_labels, keep_prob: 1.0}))
 
-        predictions = sess.run(h_2, feed_dict={x_: self.testing_data, keep_prob: 1.0})
-        print(predictions)
+        #predictions = sess.run(h_2, feed_dict={x_: self.testing_data, keep_prob: 1.0})
+        #print(predictions)
 
         saver = tf.train.Saver() #create saver that will save all the variables
         saver.save(sess, self.model) #save the model
@@ -168,4 +179,8 @@ class Season_Predictor:
 
         predictions = sess.run(h_2, feed_dict={x_: np.reshape(vals, (1, 5)), keep_prob: 1.0})
 
-        return predictions
+        print(predictions)
+
+        pred = td.team_data(year, team, predictions[0][2], predictions[0][3], predictions[0][4])
+
+        return pred
