@@ -19,9 +19,9 @@
         <label>Name:</label>
         <input type="text" class="form-control" id="name">
     </div>
+
     <button type="button" class="btn btn-primary btn-lg" onclick="addPlayer()">Add Bidder</button>
     <button type="button" class="btn btn-primary btn-lg" onclick="confirmPlayers()">Confirm Bidders</button>
-    
     
 
     <script>
@@ -54,6 +54,21 @@
 
         function confirmPlayers() {
             if(players.length > 1) {
+                var url = "http://127.0.0.1:8000";
+
+                $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify({"players" : players}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                error: function() {
+                    alert("Error");
+                },
+                success: function() {
+                    alert("OK");
+                }
+                });
                 window.open("/");
             }
         }
