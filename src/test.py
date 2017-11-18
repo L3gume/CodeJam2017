@@ -1,8 +1,21 @@
 import predict_season as sp
 import team_data as td
+import team_parser as tp
+import match_simulator as ms
+import game_manager as gm
 
-p = sp.Season_Predictor()
-p.train()
+t = tp.team_parser()
+m = ms.match_simulator()
+g = gm.game_manager()
+np = sp.Season_Predictor()
 
-#np = sp.Season_Predictor()
-#data = np.get_prediction(2018, 878378)
+for i in range(0, 1):
+    print(g.team_dict)
+    g.start_new_season(2016 + i)
+
+    t1, t2 = g.new_match()
+    print(t1.team_id)
+    print(t2.team_id)
+    winner, loser = g.play_match(t1, t2)
+    print('winner: ' + winner.team_id)
+    print('loser: ' + loser.team_id)
