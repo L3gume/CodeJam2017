@@ -14,8 +14,8 @@ for i in range(0, 1):
     g.start_new_season(2016 + i)
 
     t1, t2 = g.new_match()
-    print(t1.team_id)
-    print(t2.team_id)
+    print(g.get_team_name(t1.team_id))
+    print(g.get_team_name(t2.team_id))
     winner, loser = g.play_match(t1, t2)
-    print('winner: ' + winner.team_id)
-    print('loser: ' + loser.team_id)
+    print('winner: ' + g.get_team_name(winner.team_id))
+    print('loser: ' + g.get_team_name(loser.team_id))
