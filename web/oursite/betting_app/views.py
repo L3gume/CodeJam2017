@@ -7,6 +7,6 @@ def index(request):
 def bidding(request):
     boii = request.POST.get('players', None)
 
-    return HttpResponse(boii)
+    return HttpResponse(boii[0])
 def start_league(request):
     return render(request, 'start.html')
