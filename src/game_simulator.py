@@ -1,9 +1,11 @@
 import team_data
 
 # Handles simulating games using stats given by the predictive AI
+# ONLY USE THE simulate_game FUNCTION
 class game_simulator:
 
     # Simulates a game
+    # all args are team_data objects
     # Args:
     # - team 1's current stats
     # - team 1's predicted stats
@@ -17,7 +19,12 @@ class game_simulator:
         cur_team1, cur_team2 = determine_winner(team_ratings, cur_team1, cur_team2)
         return cur_team1, cur_team2
 
-    # all args are lists of parameters
+    # all args are team_data objects
+    # Args:
+    # - team 1's current stats
+    # - team 1's predicted stats
+    # - team 2's current stats
+    # - team 2's predicted stats
     # Returns:
     # - A tuple of the two team's ratings
     def compute_odds(self, cur_team1, pred_team1, cur_team2, pred_team2):
