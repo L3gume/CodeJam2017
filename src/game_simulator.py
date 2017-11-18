@@ -1,7 +1,11 @@
+import team_data
+
 # Handles simulating games using stats given by the predictive AI
+# ONLY USE THE simulate_game FUNCTION
 class game_simulator:
 
     # Simulates a game
+    # all args are team_data objects
     # Args:
     # - team 1's current stats
     # - team 1's predicted stats
@@ -14,25 +18,31 @@ class game_simulator:
         team_ratings = compute_odds(cur_team1, pred_team1, cur_team2, pred_team2)
         cur_team1, cur_team2 = determine_winner(team_ratings, cur_team1, cur_team2)
         return cur_team1, cur_team2
-    # all args are lists of parameters
+
+    # all args are team_data objects
+    # Args:
+    # - team 1's current stats
+    # - team 1's predicted stats
+    # - team 2's current stats
+    # - team 2's predicted stats
     # Returns:
     # - A tuple of the two team's ratings
     def compute_odds(self, cur_team1, pred_team1, cur_team2, pred_team2):
         # Get current wins and losses from both teams
-        t1_cur_win = cur_team1[3]
-        t2_cur_win = cur_team2[3]
-        t1_cur_loss = cur_team1[4]
-        t2_cur_loss = cur_team2[4]
+        t1_cur_win = cur_team1.wins
+        t2_cur_win = cur_team2.wins
+        t1_cur_loss = cur_team1.losses
+        t2_cur_loss = cur_team2.losses
 
         # Get predicted wins and losses for teams
-        t1_pred_win = pred_team1[3]
-        t2_pred_win = pred_team2[3]
-        t1_pred_loss = pred_team1[4]
-        t2_pred_loss = pred_team2[4]
+        t1_pred_win = pred_team1.wins
+        t2_pred_win = pred_team2.wins
+        t1_pred_loss = pred_team1.losses
+        t2_pred_loss = pred_team2.losses
 
         # Get the predicted ranks of both teams
-        t1_rank = pred_team1[2]
-        t2_rank = pred_team2[2]
+        t1_rank = pred_team1.rank
+        t2_rank = pred_team2.rank
 
         # Compute the ratings
         t1_rating = (t2_rank / t1_rank) * ((t1_pred_win / t1_cur_win) * 1.0 - (t1_pred_loss / t1_cur_loss) * 1.0)
@@ -69,13 +79,13 @@ class game_simulator:
 
         if (result <= t2_odds * 100):
             # team 2 wins
-            cur_team2[3] += 1
-            cur_team1[4] += 1
+            cur_team2.wins += 1
+            cur_team1.losses += 1
             cur_team1 , cur_team2 = cur_team2 , cur_team1 # swap back if t2 won
         else:
             # team 1 wins
-            cur_team1[3] += 1
-            cur_team2[4] += 1
+            cur_team1.wins += 1
+            cur_team2.losses += 1
 
         return cur_team1, cur_team2 # winning team is always the first one
 
