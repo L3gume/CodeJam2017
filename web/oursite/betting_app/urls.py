@@ -5,9 +5,7 @@ from . import views
 urlpatterns = [
     url(r'^$', views.index, name='index'),
     url(r'^start', views.start_league, name='start_league'),
-    url(r'^bidding', views.bidding, name='bidding')
-    # url(r'^signup/', views),
-    # url(r'^bidder_standings/')
-    # url(r'^baseball_standings/')
+    url(r'^bidding', views.bidding, name='bidding'),
+    url(r'^confirm_players', views.confirm_players, name='confirm_players'),
 
 ]
