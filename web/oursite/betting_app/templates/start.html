@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+  </html>
+
+  <body>
+    <h1 class="display-1">Dat bidding app tho</h1>
+    <div class="form-group">
+        <label>Name:</label>
+        <input type="text" class="form-control" id="name">
+    </div>
+
+    <button type="button" class="btn btn-primary btn-lg" onclick="addPlayer()">Add Bidder</button>
+    <button type="button" class="btn btn-primary btn-lg" onclick="confirmPlayers()">Confirm Bidders</button>
+    
+
+    <script>
+        var players = [];
+
+        function nameAlreadyExists(name) {
+            for(i in players) {
+                if(players[i] == name) {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function removePlayerFromList(name) {
+            var index = players.indexOf(name);
+            if(index > -1) {
+                players.splice(index, 1);
+            }
+        }
+
+
+        function addPlayer() {
+            var name = document.getElementById("name").value;
+            if(nameAlreadyExists(name) && name != "") {
+                players.push(name);
+                createPlayerBox(name);
+            }
+        }
+
+        function confirmPlayers() {
+            if(players.length > 1) {
+                var url = "http://127.0.0.1:8000";
+
+                $.ajax({
+                type: "POST",
+                url: url,
+                data: JSON.stringify({"players" : players}),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                error: function() {
+                    alert("Error");
+                },
+                success: function() {
+                    alert("OK");
+                }
+                });
+                window.open("/");
+            }
+        }
+
+        function createPlayerBox(name) {
+            var card = document.createElement("div");
+            card.className = "panel panel-default"
+            var cardBlock = document.createElement("div");
+            var label = document.createElement("label");
+            label.innerHTML = name;
+            var xButton = document.createElement("input");
+            xButton.type = "button";
+            xButton.value = "X";
+            xButton.onclick = function() {
+                document.body.removeChild(card);
+                removePlayerFromList(name);
+            }
+            cardBlock.appendChild(xButton);
+            cardBlock.appendChild(label);
+            cardBlock.className = "panel-body";
+            card.appendChild(cardBlock);
+            document.body.appendChild(card);
+        }
+
+    </script>
+  </body>
+
+
+
+</html>

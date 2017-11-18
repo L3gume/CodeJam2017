@@ -17,6 +17,5 @@ from django.conf.urls import include, url
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^$', include('betting_app.urls')),
-    url(r'^betting_app/', include('betting_app.urls')),
+    url(r'^$|^betting_app/', include('betting_app.urls')),
 ]
