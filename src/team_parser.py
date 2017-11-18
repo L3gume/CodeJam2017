@@ -1,5 +1,5 @@
 class team_parser:
-    def str_to_nb(_arg):
+    def str_to_nb(self, _arg):
         out = []
         for i in range(0, len(_arg)):
             nb_str = str(ord(_arg[i]))
@@ -7,7 +7,7 @@ class team_parser:
                 out.append(int(nb_str[j]))
         return int(''.join(str(x) for x in out))
 
-    def nb_to_str(_arg):
+    def nb_to_str(self, _arg):
         out = []
         ctr = 0
         for i in range(0, 3):
