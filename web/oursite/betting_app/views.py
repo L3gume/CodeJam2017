@@ -3,7 +3,8 @@ from django.http import HttpResponse
 
 
 def index(request):
-    return render(request, 'index.html')
+    boii = "hello"
+    return render(request, 'index.html', {"myVar": boii})
 def betting(request):
     return HttpResponse("Betting")
 def start_league(request):
