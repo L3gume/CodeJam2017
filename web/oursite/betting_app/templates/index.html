@@ -14,15 +14,60 @@
   </html>
 
   <body>
-	Dat bidding app tho
+    <h1 class="display-1">Dat bidding app tho</h1>
 
-	{{myVar|upper}}
 
 	<ul class="nav nav-tabs">
-			<li class="active"><a href="betting">Betting</a></li>
-			<li><a href="bidder_standings">Bidder Standings</a></li>
-			<li><a href="baseball_standings">Baseball Standings</a></li>
-          </ul>
+        <li class="active" onclick="toggleTab('bet')" id="bettingTag"><a>Betting</a></li>
+        <li id="bidderStandingsTag" onclick="toggleTab('bidder')"><a>Bidder Standings</a></li>
+        <li id="baseballTag"onclick="toggleTab('baseball')"><a>Baseball Standings</a></li>
+    </ul>
+
+    <div id="bettingTab" >
+        yoooo
+    </div>
+
+    <div id="bidderStandings" >
+evan
+    </div>
+
+    <div id="baseballStandings" >
+sucks
+    </div>
+
+    <script>
+        function toggleTab(tag) {
+            switch (tag) {
+                case 'bet':
+                    $('#bettingTab').show();
+                    $('#bidderStandings').hide();
+                    $('#baseballStandings').hide();
+                    document.getElementById('bettingTag').className = "active";
+                    document.getElementById('bidderStandingsTag').className = "";
+                    document.getElementById('baseballTag').className = "";
+                    break;
+                case 'bidder':
+                    $('#bettingTab').hide();
+                    $('#bidderStandings').show();
+                    $('#baseballStandings').hide();
+                    document.getElementById('bettingTag').className = "";
+                    document.getElementById('bidderStandingsTag').className = "active";
+                    document.getElementById('baseballTag').className = "";
+                    break;
+                case 'baseball':
+                    $('#bettingTab').hide();
+                    $('#bidderStandings').hide();
+                    $('#baseballStandings').show();
+                    document.getElementById('bettingTag').className = "";
+                    document.getElementById('bidderStandingsTag').className = "";
+                    document.getElementById('baseballTag').className = "active";
+                    break;
+            }
+        }
+
+        toggleTab('bet');
+    
+    </script>
           
   </body>
 

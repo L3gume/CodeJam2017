@@ -4,7 +4,7 @@ import team_data as td
 
 class Season_Predictor:
     def __init__(self):
-        self.NUM_ITER = 200000
+        self.NUM_ITER = 500000
         self.BATCH_SIZE = 50
 
         self.LEARNING_RATE = 1e-4
@@ -95,13 +95,17 @@ class Season_Predictor:
         x_ = tf.placeholder(tf.float32, shape=[None, self.NUM_INPUT_NODES], name="x_")
         y_ = tf.placeholder(tf.float32, shape=[None, self.NUM_OUTPUT_NODES])
 
-        w_1 = tf.Variable(tf.eye(self.NUM_HIDDEN_NODES))
-        w_2 = tf.Variable(tf.eye(self.NUM_OUTPUT_NODES))
+        w_1 = tf.Variable(tf.add(tf.eye(self.NUM_HIDDEN_NODES, dtype=tf.float32), tf.random_uniform([self.NUM_INPUT_NODES, self.NUM_HIDDEN_NODES], -0.1, 0.1)))
+        w_2 = tf.Variable(tf.add(tf.eye(self.NUM_OUTPUT_NODES, dtype=tf.float32), tf.random_uniform([self.NUM_HIDDEN_NODES, self.NUM_OUTPUT_NODES], -0.1, 0.1)))
+        #w_1 = tf.Variable(tf.eye(self.NUM_HIDDEN_NODES))
+        #w_2 = tf.Variable(tf.eye(self.NUM_OUTPUT_NODES))
         #w_1 = tf.Variable(tf.zeros([self.NUM_INPUT_NODES, self.NUM_HIDDEN_NODES]))
         #w_2 = tf.Variable(tf.zeros([self.NUM_HIDDEN_NODES, self.NUM_OUTPUT_NODES]))
 
-        b_1 = tf.Variable(tf.zeros([self.NUM_HIDDEN_NODES]))
-        b_2 = tf.Variable(tf.zeros([self.NUM_OUTPUT_NODES]))
+        b_1 = tf.Variable(tf.random_uniform([self.NUM_HIDDEN_NODES], 0, 0.1))
+        b_2 = tf.Variable(tf.random_uniform([self.NUM_OUTPUT_NODES], 0, 0.1))
+        #b_1 = tf.Variable(tf.zeros([self.NUM_HIDDEN_NODES]))
+        #b_2 = tf.Variable(tf.zeros([self.NUM_OUTPUT_NODES]))
 
         h_1 = tf.nn.relu(tf.matmul(x_, w_1) + b_1)
 
