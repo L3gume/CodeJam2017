@@ -4,7 +4,7 @@ import team_data as td
 
 class Season_Predictor:
     def __init__(self):
-        self.NUM_ITER = 500000
+        self.NUM_ITER = 50000
         self.BATCH_SIZE = 50
 
         self.LEARNING_RATE = 1e-4
@@ -181,6 +181,6 @@ class Season_Predictor:
 
         print(predictions)
 
-        pred = td.team_data(year, team, predictions[0][2], predictions[0][3], predictions[0][4])
+        pred = td.team_data(year, team, round(predictions[0][2]), round(predictions[0][3]), round(predictions[0][4]))
 
         return pred
