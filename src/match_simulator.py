@@ -2,7 +2,7 @@ import team_data
 
 # Handles simulating games using stats given by the predictive AI
 # ONLY USE THE simulate_game FUNCTION
-class game_simulator:
+class match_simulator:
 
     # Simulates a game
     # all args are team_data objects
@@ -14,9 +14,9 @@ class game_simulator:
     # Returns:
     # - winning team
     # - losing team
-    def simulate_game(self, cur_team1, pred_team1, cur_team2, pred_team2):
-        team_ratings = compute_odds(cur_team1, pred_team1, cur_team2, pred_team2)
-        cur_team1, cur_team2 = determine_winner(team_ratings, cur_team1, cur_team2)
+    def simulate_match(self, cur_team1, pred_team1, cur_team2, pred_team2):
+        team_ratings = self.compute_odds(cur_team1, pred_team1, cur_team2, pred_team2)
+        cur_team1, cur_team2 = self.determine_winner(team_ratings, cur_team1, cur_team2)
         return cur_team1, cur_team2
 
     # all args are team_data objects
@@ -72,7 +72,7 @@ class game_simulator:
 
         diff = t1_rating + -1 * t2_rating # Get the difference between the two ratings.
 
-        t1_odds = sigmoid(diff)
+        t1_odds = self.sigmoid(diff)
         t2_odds = 1 - t1_odds
 
         result = random.randin(1, 101)

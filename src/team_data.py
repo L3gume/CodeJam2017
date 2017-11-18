@@ -6,5 +6,5 @@ class team_data:
         self.wins = _wins
         self.losses = _losses
 
-    def get_total_games(self):
+    def get_total_matches(self):
         return self.wins + self.losses
