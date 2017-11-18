@@ -37,7 +37,7 @@ class Season_Predictor:
         self.testing_labels = [None] * (self.testing_size - 1)
 
         f = open(data_path + "data.csv", 'r')
-        lines = f.readlines()
+        lines = f.readlines()[1:] #ignore first line with headers
 
         index = 0
         for line in lines:
