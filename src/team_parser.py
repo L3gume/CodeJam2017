@@ -14,11 +14,12 @@ class team_parser:
     # Convert the 6 digit number back to a 3 letter code
     def nb_to_str(self, _arg):
         out = []
+        _arg_str = str(_arg)
         ctr = 0 # Initialize a counter for indexing the 6 digit int
         for i in range(0, 3):
             _str = []
-            _str.append(_arg[ctr])
-            _str.append(_arg[ctr + 1])
+            _str.append(_arg_str[ctr])
+            _str.append(_arg_str[ctr + 1])
             ctr += 2
             # create a string, convert it to int and append correspond character to string
             out.append(chr(int(''.join(str(x) for x in _str))))

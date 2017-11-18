@@ -1,3 +1,4 @@
+import random
 import team_data
 
 # Handles simulating games using stats given by the predictive AI
@@ -45,10 +46,9 @@ class match_simulator:
         t2_rank = pred_team2.rank
 
         # Compute the ratings
-        t1_rating = (t2_rank / t1_rank) * ((t1_pred_win / t1_cur_win) * 1.0 - (t1_pred_loss / t1_cur_loss) * 1.0)
-        t2_rating = (t1_rank / t2_rank) * ((t2_pred_win / t2_cur_win) * 1.0 - (t2_pred_loss / t2_cur_loss) * 1.0)
+        t1_rating = (t2_rank / t1_rank) * ((t1_pred_win / (t1_cur_win + 1)) * 1.0 - (t1_pred_loss / (t1_cur_loss + 1)) * 1.0)
+        t2_rating = (t1_rank / t2_rank) * ((t2_pred_win / (t2_cur_win + 1)) * 1.0 - (t2_pred_loss / (t2_cur_loss + 1)) * 1.0)
 
-        # Do the sigmoid ting
         return (t1_rating, t2_rating)
 
     # Args:
@@ -75,7 +75,7 @@ class match_simulator:
         t1_odds = self.sigmoid(diff)
         t2_odds = 1 - t1_odds
 
-        result = random.randin(1, 101)
+        result = random.randrange(1, 101)
 
         if (result <= t2_odds * 100):
             # team 2 wins
