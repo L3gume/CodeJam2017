@@ -4,7 +4,7 @@ import team_data as td
 
 class Season_Predictor:
     def __init__(self):
-        self.NUM_ITER = 500000
+        self.NUM_ITER = 50000
         self.BATCH_SIZE = 50
 
         self.LEARNING_RATE = 1e-4
