@@ -6,7 +6,7 @@ import predict_season as ps
 class game_manager:
 
     def __init__(self):
-        self.predictor = ps.predict_season()
+        self.predictor = ps.Season_Predictor()
         self.team_dict = {}
         self.past_seasons = []
         self.current_season = []
@@ -18,14 +18,15 @@ class game_manager:
 
     def start_new_season(self, _year):
         self.compute_rankings() # just in case
-        past_seasons.append(current_season) # add the current season to the past seasons list
+        self.past_seasons.append(list(self.current_season)) # add the current season to the past seasons list
 
         new_season = [] # initialize new season list
         new_pred_season = []
-        for team in team_dict:
+        for key in self.team_dict.keys():
             # add new team_data object to current season
-            new_season.append(td.team_data(_year, team, 0, 0, 0))
-            new_pred_season.append(predictor.get_prediction(_year, team))
+            print(str(key))
+            new_season.append(td.team_data(_year, str(key), 0, 0, 0))
+            new_pred_season.append(self.predictor.get_prediction(_year, str(key)))
         self.current_season = new_season # current season becomes new season
         self.current_pred_season = new_pred_season
 
@@ -37,7 +38,7 @@ class game_manager:
     def compute_rankings(self):
         def _key(_arg):
             return _arg.wins / _arg.losses
-        self.current_season.sort(key=_key, reverse=true)
+        self.current_season.sort(key=_key, reverse=True)
         r = 1
         for t in self.current_season:
             t.rank = r
