@@ -59,13 +59,13 @@ def register_bets(request):
     
     total_winners=0
     for player in players:
-        team = gm.get_team_name(t1.team_id) if (team_bet[player.pid] == 0) else gm.get_team_name(t2.team_id)
+        team = t1.team_id if (team_bet[player.pid] == 0) else t2.team_id
         betting.place_bet(player, float(bets_amount[player.pid]), team)
         #print ("Current player bets: \n" + player +"\n")
         player.save()
         total_winners += 1
     for player in players:
-        betting.resolve_bet(player, winner, 1+(bets_amount[player.pid]/total_pot))
+        betting.resolve_bet(player, winner.team_id, 1+(bets_amount[player.pid]/total_pot))
         #print ("Resolved player bets: \n" + player +"\n")
         player.save()
     gm.compute_rankings()
