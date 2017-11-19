@@ -28,7 +28,26 @@
     </div>
 
     <div id="bidderStandings" >
-evan
+        <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Bidder</th>
+                        <th>Wallet</th>
+                        <th>Wins</th>
+                        <th>Losses</th>
+                    </tr>
+                </thead>
+                </tbody>
+                    {% for bidder in bidders %}
+                    <tr>
+                        <td>{{ bidder.player_name }}</td>
+                        <td>{{ bidder.wallet }}</td>
+                        <td>{{ bidder.wins }}</td>
+                        <td>{{ bidder.losses }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
     </div>
 
     <div id="baseballStandings" >
@@ -36,7 +55,7 @@ evan
             <thead>
                 <tr>
                     <th>Team</th>
-                    <th>Raning</th>
+                    <th>Ranking</th>
                     <th>Win</th>
                     <th>Loss</th>
                 </tr>
@@ -44,8 +63,10 @@ evan
             </tbody>
                 {% for team in teams %}
                 <tr>
-                    <td>{{ team.team_id }}</td>
-                    <td>{{ team. }}</td>
+                    <td>{{ team.team_name }}</td>
+                    <td>{{ team.rank }}</td>
+                    <td>{{ team.wins }}</td>
+                    <td>{{ team.losses }}</td>
                 </tr>
                 {% endfor %}
             </tbody>
