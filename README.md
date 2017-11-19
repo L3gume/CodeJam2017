@@ -9,7 +9,7 @@ This project is a Django web application where players bet virtual currency on b
 
 * Python 3.5.3
 * Django 1.11.7
-* tensorflow
+* tensorflow 1.3.0
 
 ## Team Members:
 

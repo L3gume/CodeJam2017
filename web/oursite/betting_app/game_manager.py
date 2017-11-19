@@ -83,7 +83,7 @@ class game_manager:
     # Return:
     # - winning team
     # - losing team
-    def play_match(self, team1, team2, odds):
+    def play_match(self, team1, team1_pred, team2, team2_pred, odds):
         winner, loser = self.m.simulate_match(team1, team1_pred, team2, team2_pred, odds)
         return winner, loser
 
@@ -137,4 +137,4 @@ class game_manager:
     # Returns a value between 0 and 1, representing the odds of a team winning
     # TODO: tune it to better reflect the odds of a team winning the game
     def sigmoid(self, _arg):
-        return 1.00 * (1 / (1 + math.exp(-_arg)))
+        return  (1 / (1 + math.exp(-(_arg/4))))
