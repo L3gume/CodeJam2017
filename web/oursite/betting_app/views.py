@@ -56,7 +56,7 @@ def register_bets(request):
         betting.resolve_bet(player, winner, total_pot/total_winners)
         print (player)
         player.save()
-    
+    gm.compute_rankings()
     
     return HttpResponse("Success")
 
