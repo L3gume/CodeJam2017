@@ -91,10 +91,12 @@
 
 
         function addPlayer() {
-            var name = document.getElementById("name").value;
+            var nameField = document.getElementById("name");
+            var name = nameField.value;
             if(nameAlreadyExists(name) && name != "") {
                 players.push(name);
                 createPlayerBox(name);
+                nameField.value = "";
             }
         }
 

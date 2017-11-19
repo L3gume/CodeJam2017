@@ -24,9 +24,25 @@
     </ul>
 
     <div id="bettingTab" >
-        yoooo
+        
+        <form>
+            {% for bidder in bidders_by_id %}
+            <div class="panel panel-default">
+                <div class="panel-body" id="{{ bidder.pid }}">
+                    <h3>{{ bidder.player_name }}</h3>
+                    <input type="number" class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">Team 1
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">Team 2
+                    </label>
+                </div>
+            </div>
+            {% endfor %}
+        </form>
     </div>
-
+    
     <div id="bidderStandings" >
         <table class="table table-hover">
                 <thead>
