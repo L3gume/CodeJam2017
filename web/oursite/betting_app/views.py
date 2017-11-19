@@ -56,7 +56,7 @@ def register_bets(request):
     total_pot = 0
     for bet in bets_amount:
         total_pot += float(bet)
-    
+
     total_winners=0
     for player in players:
         team = t1.team_id if (team_bet[player.pid] == 0) else t2.team_id
