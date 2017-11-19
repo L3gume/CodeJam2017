@@ -6,14 +6,15 @@ from betting_app.models import Player
 from betting_app.models import Team
 from betting_app import betting
 from betting_app import game_manager
+from betting_app import team_data
 
 gm = game_manager.game_manager()
 year = 2016
 winner = ""
 loser = ""
 odds =(0,0)
-t1 = ""
-t2 = ""
+t1 = team_data.team_data(0, "", 0, 0, 0)
+t2 = team_data.team_data(0, "", 0, 0, 0)
 def index(request):
     bidders = Player.objects.all()
 
@@ -47,7 +48,7 @@ def register_bets(request):
     
     total_winners=0
     for player in players:
-        team = t1 if (team_bet[player.id] == 0) else t2
+        team = gm.get_team_name(t1.team_id) if (team_bet[player.id] == 0) else gm.get_team_name(t1.team_id)
         betting.place_bet(player, bets_amount[player.pid], team)
         print (player)
         player.save()
