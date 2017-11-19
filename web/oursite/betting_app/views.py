@@ -65,13 +65,8 @@ def register_bets(request):
         player.save()
         total_winners += 1
     for player in players:
-<<<<<<< HEAD
         betting.resolve_bet(player, winner.team_id, 1+(bets_amount[player.pid]/total_pot))
-        print ("Resolved player bets: \n" + player +"\n")
-=======
-        betting.resolve_bet(player, winner, 1+(bets_amount[player.pid]/total_pot))
         #print ("Resolved player bets: \n" + player +"\n")
->>>>>>> 0124de9e28bc262dbcd3dc8cb63d2c831556a30e
         player.save()
     gm.compute_rankings()
     t1, t1_pred, t2, t2_pred, odds = gm.new_match()
