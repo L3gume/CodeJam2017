@@ -29,7 +29,7 @@ def index(request):
     bidders = Player.objects.all()
     bidders_by_id = Player.objects.all().order_by('pid')
     teams = Team.objects.all()
-    return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id, 't1' : gm.get_team_name(t1.team_id), 't2' : gm.get_team_name(t2.team_id), 'odds0' : odds[0], 'odds1': odds[1]})
+    return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id, 't1' : gm.get_team_name(t1.team_id), 't2' : gm.get_team_name(t2.team_id), 'odds0' : int(odds[0])*100, 'odds1': int(odds[1])*100})
 def start_league(request):
     return render(request, 'start.html')
 
