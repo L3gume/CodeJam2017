@@ -36,6 +36,9 @@ class game_manager:
     def get_team_name(self, _arg):
         return self.team_dict[_arg]
 
+    def get_team_dict(self):
+        return self.team_dict
+
     # Compute the rankings by sorting the season list by w/l ratio
     def compute_rankings(self):
         def _key(_arg):
