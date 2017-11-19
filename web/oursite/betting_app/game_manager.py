@@ -71,7 +71,7 @@ class game_manager:
             elif self.t.nb_to_str(team.team_id) == team2.team_id:
                 team2_pred = team
 
-        odds = compute_odds(team1, team1_pred, team2, team2_pred)
+        odds = self.compute_odds(team1, team1_pred, team2, team2_pred)
 
         return team1, team2, odds
 
