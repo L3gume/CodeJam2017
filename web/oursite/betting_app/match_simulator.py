@@ -43,8 +43,3 @@ class match_simulator:
 
         return cur_team1, cur_team2 # winning team is always the first one
 
-    # Sigmoid function
-    # Returns a value between 0 and 1, representing the odds of a team winning
-    # TODO: tune it to better reflect the odds of a team winning the game
-    def sigmoid(self, _arg):
-        return 1.00 * (1 / (1 + math.exp(-_arg)))

@@ -128,3 +128,9 @@ class game_manager:
         t2_odds = 1 - t1_odds
         odds = (t1_odds, t2_odds)
         return odds
+
+    # Sigmoid function
+    # Returns a value between 0 and 1, representing the odds of a team winning
+    # TODO: tune it to better reflect the odds of a team winning the game
+    def sigmoid(self, _arg):
+        return 1.00 * (1 / (1 + math.exp(-_arg)))
