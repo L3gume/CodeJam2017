@@ -18,10 +18,10 @@ class Player(models.Model):
 
 class Team(models.Model):
     team_name = models.CharField(max_length = 30, default = "")
-    team_id = models.IntegerField()
-    rank = models.IntegerField()
-    wins = models.IntegerField()
-    losses = models.IntegerField()
+    team_id = models.CharField(max_length = 3, default = "")
+    rank = models.IntegerField(default = 0)
+    wins = models.IntegerField(default = 0)
+    losses = models.IntegerField(default = 0)
 
     def team_id_to_str(self):
         return 0
