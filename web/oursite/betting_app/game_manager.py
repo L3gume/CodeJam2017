@@ -59,13 +59,6 @@ class game_manager:
         team1 = self.current_season[0]
         team2 = self.current_season[1]
 
-        return team1, team2
-
-    # Gets the predicted season results of both teams and simulates the match
-    # Return:
-    # - winning team
-    # - losing team
-    def play_match(self, team1, team2):
         # Get predicted results for those two teams
         # do the ting
         team1_pred = td.team_data(0, '', 0, 0, 0)
@@ -78,5 +71,60 @@ class game_manager:
             elif self.t.nb_to_str(team.team_id) == team2.team_id:
                 team2_pred = team
 
-        winner, loser, odds = self.m.simulate_match(team1, team1_pred, team2, team2_pred)
-        return winner, loser, odds
+        odds = compute_odds(team1, team1_pred, team2, team2_pred)
+
+        return team1, team2, odds
+
+    # Gets the predicted season results of both teams and simulates the match
+    # Return:
+    # - winning team
+    # - losing team
+    def play_match(self, team1, team2, odds):
+        winner, loser = self.m.simulate_match(team1, team1_pred, team2, team2_pred, odds)
+        return winner, loser
+
+
+    # all args are team_data objects
+    # Args:
+    # - team 1's current stats
+    # - team 1's predicted stats
+    # - team 2's current stats
+    # - team 2's predicted stats
+    # Returns:
+    # - A tuple of the odds of both teams winning
+    def compute_odds(self, cur_team1, pred_team1, cur_team2, pred_team2):
+        # Get current wins and losses from both teams
+        t1_cur_win = cur_team1.wins
+        t2_cur_win = cur_team2.wins
+        t1_cur_loss = cur_team1.losses
+        t2_cur_loss = cur_team2.losses
+
+        # Get predicted wins and losses for teams
+        t1_pred_win = pred_team1.wins
+        t2_pred_win = pred_team2.wins
+        t1_pred_loss = pred_team1.losses
+        t2_pred_loss = pred_team2.losses
+
+        # Get the predicted ranks of both teams
+        t1_rank = pred_team1.rank
+        t2_rank = pred_team2.rank
+
+        # Compute the ratings
+        t1_rating = (t2_rank / t1_rank) * ((t1_pred_win / (t1_cur_win + 1)) * 1.0 - (t1_pred_loss / (t1_cur_loss + 1)) * 1.0)
+        t2_rating = (t1_rank / t2_rank) * ((t2_pred_win / (t2_cur_win + 1)) * 1.0 - (t2_pred_loss / (t2_cur_loss + 1)) * 1.0)
+
+        # Do a + -b to cover the case where b is negative
+        i = 0
+
+        # if team 2's rating is higher that team 1's, swap them to make everything easier
+        if t1_rating < t2_rating:
+            t1_rating , t2_rating = t2_rating , t1_rating
+            cur_team1 , cur_team2 = cur_team2 , cur_team1
+
+        diff = t1_rating + -1 * t2_rating # Get the difference between the two ratings.
+
+        print(diff)
+        t1_odds = self.sigmoid(diff)
+        t2_odds = 1 - t1_odds
+        odds = (t1_odds, t2_odds)
+        return odds
