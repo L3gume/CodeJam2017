@@ -55,7 +55,7 @@ def register_bets(request):
     winner, loser = gm.play_match(t1, t1_pred, t2, t2_pred, odds)
     total_pot = 0
     for bet in bets_amount:
-        total_pot += bet
+        total_pot += (float) bet
     
     total_winners=0
     for player in players:
