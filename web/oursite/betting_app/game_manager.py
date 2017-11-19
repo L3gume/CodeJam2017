@@ -78,5 +78,5 @@ class game_manager:
             elif self.t.nb_to_str(team.team_id) == team2.team_id:
                 team2_pred = team
 
-        winner, loser = self.m.simulate_match(team1, team1_pred, team2, team2_pred)
-        return winner, loser
+        winner, loser, odds = self.m.simulate_match(team1, team1_pred, team2, team2_pred)
+        return winner, loser, odds

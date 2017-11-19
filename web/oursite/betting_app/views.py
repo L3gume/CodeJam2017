@@ -3,10 +3,15 @@ from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_protect
 import json
 from betting_app.models import Player
+from betting_app.models import Team
+
 
 def index(request):
-    
-    return render(request, 'index.html')
+    bidders = Player.objects.all()
+    #bidders_by_id = sorted(bidders, key=sort_player)
+    bidders_by_id = Player.objects.all().order_by('-pid')
+    teams = Team.objects.all()
+    return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id})
 def bidding(request):
     return render(request, "index.html")
 def start_league(request):
@@ -14,9 +19,10 @@ def start_league(request):
 
 def confirm_players(request):
     players = json.loads(request.body.decode('utf-8'))['players']
+    pid = 0
     for player in players:
-        pid = 0
         p = Player(pid = pid, player_name = player, wallet = 500)
         pid +=1
         p.save()
+    return HttpResponse("Success")
     

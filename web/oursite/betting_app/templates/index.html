@@ -24,11 +24,46 @@
     </ul>
 
     <div id="bettingTab" >
-        yoooo
+        
+        <form>
+            {% for bidder in bidders_by_id %}
+            <div class="panel panel-default">
+                <div class="panel-body" id="{{ bidder.pid }}">
+                    <h3>{{ bidder.player_name }}</h3>
+                    <input type="number" class="form-control">
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">Team 1
+                    </label>
+                    <label class="radio-inline">
+                        <input type="radio" name="optradio">Team 2
+                    </label>
+                </div>
+            </div>
+            {% endfor %}
+        </form>
     </div>
-
+    
     <div id="bidderStandings" >
-evan
+        <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Bidder</th>
+                        <th>Wallet</th>
+                        <th>Wins</th>
+                        <th>Losses</th>
+                    </tr>
+                </thead>
+                </tbody>
+                    {% for bidder in bidders %}
+                    <tr>
+                        <td>{{ bidder.player_name }}</td>
+                        <td>{{ bidder.wallet }}</td>
+                        <td>{{ bidder.wins }}</td>
+                        <td>{{ bidder.losses }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
     </div>
 
     <div id="baseballStandings" >
@@ -36,7 +71,7 @@ evan
             <thead>
                 <tr>
                     <th>Team</th>
-                    <th>Raning</th>
+                    <th>Ranking</th>
                     <th>Win</th>
                     <th>Loss</th>
                 </tr>
@@ -44,8 +79,10 @@ evan
             </tbody>
                 {% for team in teams %}
                 <tr>
-                    <td>{{ team.team_id }}</td>
-                    <td>{{ team. }}</td>
+                    <td>{{ team.team_name }}</td>
+                    <td>{{ team.rank }}</td>
+                    <td>{{ team.wins }}</td>
+                    <td>{{ team.losses }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

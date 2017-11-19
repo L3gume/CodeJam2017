@@ -91,17 +91,19 @@
 
 
         function addPlayer() {
-            var name = document.getElementById("name").value;
+            var nameField = document.getElementById("name");
+            var name = nameField.value;
             if(nameAlreadyExists(name) && name != "") {
                 players.push(name);
                 createPlayerBox(name);
+                nameField.value = "";
             }
         }
 
         function confirmPlayers() {
             if(players.length > 1) {
                 $.post('confirm_players', JSON.stringify({"players" : players}), function(data){
-                    window.location.replace("bidding");
+                    window.location.replace("/");
                 });
             }
         }
