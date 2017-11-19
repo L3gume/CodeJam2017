@@ -55,18 +55,18 @@ def register_bets(request):
     winner, loser = gm.play_match(t1, t1_pred, t2, t2_pred, odds)
     total_pot = 0
     for bet in bets_amount:
-        total_pot += (float) bet
+        total_pot += float(bet)
     
     total_winners=0
     for player in players:
-        team = gm.get_team_name(t1.team_id) if (team_bet[player.id] == 0) else gm.get_team_name(t2.team_id)
-        betting.place_bet(player, bets_amount[player.pid], team)
-        print ("Current player bets: \n" + player +"\n")
+        team = gm.get_team_name(t1.team_id) if (team_bet[player.pid] == 0) else gm.get_team_name(t2.team_id)
+        betting.place_bet(player, float(bets_amount[player.pid]), team)
+        #print ("Current player bets: \n" + player +"\n")
         player.save()
         total_winners += 1
     for player in players:
-        betting.resolve_bet(player, winner, total_pot/total_winners)
-        print ("Resolved player bets: \n" + player +"\n")
+        betting.resolve_bet(player, winner.team_id, total_pot/total_winners)
+        #print ("Resolved player bets: \n" + player +"\n")
         player.save()
     gm.compute_rankings()
     t1, t1_pred, t2, t2_pred, odds = gm.new_match()
