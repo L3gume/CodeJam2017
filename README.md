@@ -9,7 +9,7 @@ This project is a Django web application where players bet virtual currency on b
 
 * Python 3.5.3
 * Django 1.11.7
-* tensorflow 1.3.0
+* Tensorflow 1.3.0
 
 ## Team Members:
 
@@ -18,3 +18,16 @@ This project is a Django web application where players bet virtual currency on b
 * Bogdan Dumitru - Betting system
 * Michael Vaquier - Django application
 * Thomas faribault-Menard - Django application
+
+## Set up:
+
+* Install dependencies, see above
+* Clone the repo
+* cd in `web/oursite/`
+* type `python3.5 manage.py runserver`
+* Go to `127.0.0.1:8000/betting_app/start/`
+* Add at least two bidders
+* confirm the players
+* place your bets
+* ... profit!
+
