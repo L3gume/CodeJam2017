@@ -7,7 +7,7 @@ class Season_Predictor:
         self.NUM_ITER = 500000
         self.BATCH_SIZE = 50
 
-        self.LEARNING_RATE = 1e-4
+        self.LEARNING_RATE = 1e-5
 
         self.NUM_INPUT_NODES = 5
         self.NUM_HIDDEN_NODES = 5
