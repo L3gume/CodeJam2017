@@ -60,17 +60,17 @@ def register_bets(request):
     total_pot = 0
     for bet in bets_amount:
         total_pot += float(bet)
-
-    total_winners=0
+    
+    total_win_pot = 0
     for player in players:
         team = t1.team_id if (float(team_bet[player.pid]) == 0.0) else t2.team_id
+        total_win_pot += float(bets_amount[player.pid]) if (float(team_bet[player.pid]) == 0.0) else 0
         betting.place_bet(player, float(bets_amount[player.pid]), team)
         print ("Current player bets: \n" + player.team_bet +"\n")
         player.save()
-        total_winners += 1
     for player in players:
         print ("Resolved player bets: \n" + winner.team_id +"\n")
-        betting.resolve_bet(player, winner.team_id, 1+(float(bets_amount[player.pid])/total_pot))
+        betting.resolve_bet(player, winner.team_id, 1+((float(bets_amount[player.pid])/total__win_pot*(total_pot-total_win_pot))))
         
         player.save()
     win_team = Team.objects.get(team_id = t1.team_id)
