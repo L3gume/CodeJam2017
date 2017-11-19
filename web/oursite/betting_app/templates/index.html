@@ -24,23 +24,25 @@
     </ul>
 
     <div id="bettingTab" >
-        
-        <form>
+
+        <form id="players_form">
             {% for bidder in bidders_by_id %}
             <div class="panel panel-default">
                 <div class="panel-body" id="{{ bidder.pid }}">
                     <h3>{{ bidder.player_name }}</h3>
-                    <input type="number" class="form-control">
+                    <input type="number" name="{{ bidder.pid }}Amount" class="form-control">
                     <label class="radio-inline">
-                        <input type="radio" name="optradio">Team 1
+                        <input type="radio" value="0" name="{{ bidder.pid }}TeamBid">Team 1
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optradio">Team 2
+                        <input type="radio" value= "1" name="{{ bidder.pid }}TeamBid">Team 2
                     </label>
                 </div>
             </div>
             {% endfor %}
         </form>
+
+        <button class="btn btn-default" onclick="submitBet()">Submit</button>
     </div>
     
     <div id="bidderStandings" >
@@ -88,6 +90,52 @@
             </tbody>
         </table>
     </div>
+     <!-- AJAX Setup -->
+<script>
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        function sameOrigin(url) {
+           // test that a given url is a same-origin URL
+           // url could be relative or scheme relative or absolute
+           var host = document.location.host; // host + port
+           var protocol = document.location.protocol;
+           var sr_origin = '//' + host;
+           var origin = protocol + sr_origin;
+           // Allow absolute or scheme relative URLs to same origin
+           return (url == origin || url.slice(0, origin.length + 1) == origin + '/') ||
+           (url == sr_origin || url.slice(0, sr_origin.length + 1) == sr_origin + '/') ||
+           // or any other URL that isn't scheme relative or absolute i.e relative.
+           !(/^(\/\/|http:|https:).*/.test(url));
+        }
+        var csrftoken = getCookie('csrftoken')
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && sameOrigin(settings.url)) {
+                    // Send the token to same-origin, relative URLs only.
+                    // Send the token only if the method warrants CSRF protection
+                    // Using the CSRFToken value acquired earlier
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+        </script>
 
     <script>
         function toggleTab(tag) {
@@ -118,6 +166,28 @@
                     break;
             }
         }
+
+        function submitBet() {
+            var data = $('#players_form').serializeArray();
+
+            if(data.indexOf("\"\"") < 0) {
+                var amount = true;
+                var dataOut = {'bets' : [], 'team_bet' : []};
+                for (i in data) {
+                    if(amount) {
+                        dataOut.bets.push(data[i].value)
+                        amount = !amount;
+                    } else {
+                        dataOut.team_bet.push(data[i].value);
+                        amount = !amount;
+                    }
+                }
+                $.post('betting_app/register_bets', JSON.stringify(dataOut), function(data){
+                    window.location.replace("/");
+                });
+            }
+        }
+
 
         toggleTab('bet');
     

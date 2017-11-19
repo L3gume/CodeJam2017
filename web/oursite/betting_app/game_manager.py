@@ -1,8 +1,8 @@
 import csv
-import team_data as td
-import match_simulator as ms
-import predict_season as ps
-import team_parser as tp
+from betting_app import team_data as td
+from betting_app import match_simulator as ms
+from betting_app import predict_season as ps
+from betting_app import team_parser as tp
 
 class game_manager:
 
@@ -15,7 +15,7 @@ class game_manager:
         self.current_season = []
         self.current_pred_season = []
 
-        f = open("../../data/team_names.csv")
+        f = open("data/team_names.csv")
         reader = csv.reader(f, delimiter=',')
         self.team_dict = {rows[0]:rows[1] for rows in reader}
 

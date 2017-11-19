@@ -1,5 +1,5 @@
 import random
-import team_data
+from betting_app import team_data
 import math
 
 # Handles simulating games using stats given by the predictive AI
