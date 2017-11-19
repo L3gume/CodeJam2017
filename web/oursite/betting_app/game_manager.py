@@ -15,7 +15,7 @@ class game_manager:
         self.current_season = []
         self.current_pred_season = []
 
-        f = open("../data/team_names.csv")
+        f = open("../../data/team_names.csv")
         reader = csv.reader(f, delimiter=',')
         self.team_dict = {rows[0]:rows[1] for rows in reader}
 

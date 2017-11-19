@@ -7,7 +7,7 @@ class Season_Predictor:
         self.NUM_ITER = 500000
         self.BATCH_SIZE = 50
 
-        self.LEARNING_RATE = 1e-4
+        self.LEARNING_RATE = 1e-5
 
         self.NUM_INPUT_NODES = 5
         self.NUM_HIDDEN_NODES = 5
@@ -38,7 +38,7 @@ class Season_Predictor:
         return np.asarray(data_shuffle), np.asarray(labels_shuffle)
 
     def generate_training_and_testing_set(self):
-        data_path = "../data/"
+        data_path = "../../data/"
 
         f = open(data_path + "data.csv", 'r')
         lines = f.readlines() #ignore first line with headers
