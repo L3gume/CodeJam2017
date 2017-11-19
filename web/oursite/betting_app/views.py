@@ -59,7 +59,7 @@ def register_bets(request):
     
     total_winners=0
     for player in players:
-        team = gm.get_team_name(t1.team_id) if (team_bet[player.id] == 0) else gm.get_team_name(t2.team_id)
+        team = gm.get_team_name(t1.team_id) if (team_bet[player.pid] == 0) else gm.get_team_name(t2.team_id)
         betting.place_bet(player, bets_amount[player.pid], team)
         print ("Current player bets: \n" + player +"\n")
         player.save()
