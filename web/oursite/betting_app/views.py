@@ -6,6 +6,7 @@ from django.core import serializers
 
 
 def index(request):
+    
     return render(request, 'index.html')
 def bidding(request):
     return render(request, "index.html")
