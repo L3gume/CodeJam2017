@@ -42,6 +42,10 @@ def confirm_players(request):
         pid +=1
         p.save()
     Team.objects.all().delete()
+    all_teams = gm.get_team_dict()
+    for team_key, team_name in all_teams.items():
+        t = Team(team_name = team_name, team_id=team_key)
+        t.save()
     gm.start_new_season(year)
     global t1, t1_pred, t2, t2_pred, odds
     t1, t1_pred, t2, t2_pred, odds = gm.new_match()
@@ -59,13 +63,13 @@ def register_bets(request):
     
     total_winners=0
     for player in players:
-        team = gm.get_team_name(t1.team_id) if (team_bet[player.pid] == 0) else gm.get_team_name(t2.team_id)
+        team = t1.team_id if (float(team_bet[player.pid]) == 0.0) else t2.team_id
         betting.place_bet(player, float(bets_amount[player.pid]), team)
         #print ("Current player bets: \n" + player +"\n")
         player.save()
         total_winners += 1
     for player in players:
-        betting.resolve_bet(player, winner, 1+(bets_amount[player.pid]/total_pot))
+        betting.resolve_bet(player, winner, 1+(float(bets_amount[player.pid])/total_pot))
         #print ("Resolved player bets: \n" + player +"\n")
         player.save()
     gm.compute_rankings()
