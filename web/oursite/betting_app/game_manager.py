@@ -83,7 +83,7 @@ class game_manager:
     # Return:
     # - winning team
     # - losing team
-    def play_match(self, team1, team2, odds):
+    def play_match(self, team1, team1_pred, team2, team2_pred, odds):
         winner, loser = self.m.simulate_match(team1, team1_pred, team2, team2_pred, odds)
         return winner, loser
 
