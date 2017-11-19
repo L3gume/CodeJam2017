@@ -16,7 +16,6 @@ t1 = ""
 t2 = ""
 def index(request):
     bidders = Player.objects.all()
-    #bidders_by_id = sorted(bidders, key=sort_player)
 
     bidders_by_id = Player.objects.all().order_by('pid')
     teams = Team.objects.all()
@@ -31,8 +30,9 @@ def confirm_players(request):
         p = Player(pid = pid, player_name = player, wallet = 500)
         pid +=1
         p.save()
+    Team.objects.all().delete()
     gm.start_new_season(year)
-    compute_match()
+    t1, t2, odds = gm.new_match()
     return HttpResponse("Success")
 
 def register_bets(request):
