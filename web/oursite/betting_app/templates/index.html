@@ -24,23 +24,25 @@
     </ul>
 
     <div id="bettingTab" >
-        
-        <form>
+
+        <form id="players_form">
             {% for bidder in bidders_by_id %}
             <div class="panel panel-default">
                 <div class="panel-body" id="{{ bidder.pid }}">
                     <h3>{{ bidder.player_name }}</h3>
-                    <input type="number" class="form-control">
+                    <input type="number" name="{{ bidder.pid }}Amount" class="form-control">
                     <label class="radio-inline">
-                        <input type="radio" name="optradio">Team 1
+                        <input type="radio" value="1" name="{{ bidder.pid }}TeamBid">Team 1
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="optradio">Team 2
+                        <input type="radio" value= "2" name="{{ bidder.pid }}TeamBid">Team 2
                     </label>
                 </div>
             </div>
             {% endfor %}
         </form>
+
+        <button class="btn btn-default" onclick="submitBet()">Submit</button>
     </div>
     
     <div id="bidderStandings" >
@@ -118,6 +120,16 @@
                     break;
             }
         }
+
+        function submitBet() {
+            var data = JSON.stringify($('#players_form').serializeArray());
+            if(data.indexOf("\"\"") < 0) {
+                $.post('register_bets', data, function(data){
+                    window.location.replace("/");
+                });
+            }
+        }
+
 
         toggleTab('bet');
     
