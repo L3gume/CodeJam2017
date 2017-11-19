@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import team_data as td
+from betting_app import team_data as td
 
 class Season_Predictor:
     def __init__(self):
@@ -18,7 +18,7 @@ class Season_Predictor:
                                  # actual value is testing_size - 1 since we are using the 
                                  # "next year" as the label (and no next year for latest data)
 
-        self.model = "Model/season_model"  # location of the saved trained model
+        self.model = "betting_app/Model/season_model"  # location of the saved trained model
 
         self.training_data = []  # holds the training data
         self.training_labels = []  # holds the training labels
@@ -41,7 +41,7 @@ class Season_Predictor:
 
     # This method generates all the training and testing set data from the dataset
     def generate_training_and_testing_set(self):
-        data_path = "../../data/"  # the path to the data csv file
+        data_path = "data/"  # the path to the data csv file
 
         f = open(data_path + "data.csv", 'r')
         lines = f.readlines()  # ignore first line with headers
@@ -109,8 +109,12 @@ class Season_Predictor:
         # first hidden node
         h_1 = tf.nn.relu(tf.matmul(x_, w_1) + b_1)
 
+                #Dropout to reduce overfitting
+        keep_prob = tf.placeholder(tf.float32, name="keep_prob")
+        h_drop = tf.nn.dropout(h_1, keep_prob)
+
         # output node
-        h_2 = tf.add(tf.matmul(h_1, w_2), b_2, name="h_2")
+        h_2 = tf.add(tf.matmul(h_drop, w_2), b_2, name="h_2")
 
         # set cost as mean squared error
         cost = tf.reduce_mean(tf.square(y_ - h_2))
@@ -130,16 +134,16 @@ class Season_Predictor:
             batch_xs, batch_ys = self.next_batch(self.BATCH_SIZE, self.training_data, self.training_labels)
 
             if i == 0:
-                print('Initial Cost: ', sess.run(cost, feed_dict={x_: self.testing_data, y_: self.testing_labels}))
+                print('Initial Cost: ', sess.run(cost, feed_dict={x_: self.testing_data, y_: self.testing_labels, keep_prob: 1.0}))
 
             # training
-            sess.run(training_step, feed_dict={x_: batch_xs, y_: batch_ys})
+            sess.run(training_step, feed_dict={x_: batch_xs, y_: batch_ys, keep_prob: 1.0})
 
             # test summary
-            summary = sess.run(summary_op, feed_dict={x_: self.testing_data, y_: self.testing_labels})
+            summary = sess.run(summary_op, feed_dict={x_: self.testing_data, y_: self.testing_labels, keep_prob: 1.0})
             test_writer.add_summary(summary, i)
 
-        print('Cost: ', sess.run(cost, feed_dict={x_: self.testing_data, y_: self.testing_labels}))
+        print('Cost: ', sess.run(cost, feed_dict={x_: self.testing_data, y_: self.testing_labels, keep_prob: 1.0}))
 
         saver = tf.train.Saver()  # create saver that will save all the variables
         saver.save(sess, self.model)  # save the model
@@ -160,13 +164,16 @@ class Season_Predictor:
 
         # Load model from model directory
         saver = tf.train.import_meta_graph(self.model + ".meta")
-        saver.restore(sess, tf.train.latest_checkpoint('./Model/'))
+        saver.restore(sess, tf.train.latest_checkpoint("./betting_app/Model/"))
 
         # Setup default graph
         graph = tf.get_default_graph()
 
         # Load x_ for input data
         x_ = graph.get_tensor_by_name("x_:0")
+
+        # Load keep_prob
+        keep_prob = graph.get_tensor_by_name("keep_prob:0")
 
         # Load h_2 for output data
         h_2 = graph.get_tensor_by_name("h_2:0")
@@ -185,10 +192,10 @@ class Season_Predictor:
         # Predict the data needed to generate final output prediction
         while years_to_predict > 0:
             years_to_predict -= 1
-            vals = sess.run(h_2, feed_dict={x_: np.reshape(vals, (1, 5))})
+            vals = sess.run(h_2, feed_dict={x_: np.reshape(vals, (1, 5)), keep_prob: 1.0})
 
         # Get predictions for specified year
-        predictions = sess.run(h_2, feed_dict={x_: np.reshape(vals, (1, 5))})
+        predictions = sess.run(h_2, feed_dict={x_: np.reshape(vals, (1, 5)), keep_prob: 1.0})
 
         # Turn the predictions into the specified team_data object
         pred = td.team_data(year, team, round(predictions[0][2]), round(predictions[0][3]), round(predictions[0][4]))
