@@ -27,5 +27,5 @@ class Team(models.Model):
         return 0
 
     class Meta:
-        ordering = ('-rank',)
+        ordering = ('rank',)
         

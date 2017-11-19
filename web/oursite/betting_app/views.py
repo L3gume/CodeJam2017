@@ -73,12 +73,12 @@ def register_bets(request):
         betting.resolve_bet(player, winner.team_id, 1+(float(bets_amount[player.pid])/total_pot))
         
         player.save()
-    gm.compute_rankings()
     win_team = Team.objects.get(team_id = t1.team_id)
     lose_team = Team.objects.get(team_id = t2.team_id)
-
     win_team.wins +=1
     lose_team.losses += 1
+    gm.compute_rankings()
+    
     win_team.rank = gm.current_season[gm.current_season.index(t1)].rank
     lose_team.rank = gm.current_season[gm.current_season.index(t2)].rank
 
