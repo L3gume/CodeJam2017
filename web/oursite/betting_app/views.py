@@ -70,7 +70,7 @@ def register_bets(request):
         player.save()
     for player in players:
         print ("Resolved player bets: \n" + winner.team_id +"\n")
-        betting.resolve_bet(player, winner.team_id, 1+((float(bets_amount[player.pid])/total__win_pot*(total_pot-total_win_pot))))
+        betting.resolve_bet(player, winner.team_id, (float(bets_amount[player.pid])/total_win_pot*(total_pot-total_win_pot)))
         
         player.save()
     gm.compute_rankings()
