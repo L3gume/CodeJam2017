@@ -77,7 +77,7 @@ class game_manager:
 
         odds = self.compute_odds(team1, team1_pred, team2, team2_pred)
 
-        return team1, team2, odds
+        return team1, team1_pred, team2, team2_pred, odds
 
     # Gets the predicted season results of both teams and simulates the match
     # Return:

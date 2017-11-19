@@ -10,20 +10,26 @@ from betting_app import team_data
 
 gm = game_manager.game_manager()
 year = 2016
-winner = ""
-loser = ""
+global winner
+winner = team_data.team_data(0, "", 0, 0, 0)
+global loser
+loser = team_data.team_data(0, "", 0, 0, 0)
 global odds
 odds =(0,0)
 global t1
 t1 = team_data.team_data(0, "", 0, 0, 0)
 global t2
 t2 = team_data.team_data(0, "", 0, 0, 0)
+global t1_pred
+t1_pred = team_data.team_data(0, "", 0, 0, 0)
+global t2_pred
+t2_pred = team_data.team_data(0, "", 0, 0, 0)
 def index(request):
     global t1, t2, odds
     bidders = Player.objects.all()
     bidders_by_id = Player.objects.all().order_by('pid')
     teams = Team.objects.all()
-    return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id, 't1' : t1.team_id, 't2' : t2.team_id, 'odds0' : odds[0], 'odds1': odds[1]})
+    return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id, 't1' : gm.get_team_name(t1.team_id), 't2' : gm.get_team_name(t2.team_id), 'odds0' : odds[0], 'odds1': odds[1]})
 def start_league(request):
     return render(request, 'start.html')
 
@@ -45,8 +51,8 @@ def register_bets(request):
     players = Player.objects.all()
     bets_amount = json.loads(request.body.decode('utf-8'))['bets']
     team_bet = json.loads(request.body.decode('utf-8'))['team_bet']
-    global t1, t2, odds
-    gm.play_match(t1, t2, odds)
+    global t1, t1_pred, t2, t2_pred, odds, winner, loser
+    winner, loser = gm.play_match(t1, t1_pred, t2, t2_pred, odds)
     total_pot = 0
     for bet in bets_amount:
         total_pot += bet
@@ -63,7 +69,7 @@ def register_bets(request):
         print ("Resolved player bets: \n" + player +"\n")
         player.save()
     gm.compute_rankings()
-    t1, t2, odds = gm.new_match()
+    t1, t1_pred, t2, t2_pred, odds = gm.new_match()
     return HttpResponse("Success")
 
 def reset_season():
