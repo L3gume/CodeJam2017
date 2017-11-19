@@ -28,6 +28,7 @@ def start_league(request):
     return render(request, 'start.html')
 
 def confirm_players(request):
+    reset_season()
     players = json.loads(request.body.decode('utf-8'))['players']
     pid = 0
     for player in players:
@@ -54,14 +55,16 @@ def register_bets(request):
     for player in players:
         team = gm.get_team_name(t1.team_id) if (team_bet[player.id] == 0) else gm.get_team_name(t2.team_id)
         betting.place_bet(player, bets_amount[player.pid], team)
-        print ("Current player bets: \n"player +"\n")
+        print ("Current player bets: \n" + player +"\n")
         player.save()
         total_winners += 1
     for player in players:
         betting.resolve_bet(player, winner, total_pot/total_winners)
-        print ("Resolved player bets: \n"player +"\n")
+        print ("Resolved player bets: \n" + player +"\n")
         player.save()
     gm.compute_rankings()
     t1, t2, odds = gm.new_match()
     return HttpResponse("Success")
 
+def reset_season():
+    Player.objects.all().delete()
