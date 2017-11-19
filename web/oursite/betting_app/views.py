@@ -5,6 +5,7 @@ import json
 from betting_app.models import Player
 
 def index(request):
+    
     return render(request, 'index.html')
 def bidding(request):
     return render(request, "index.html")
