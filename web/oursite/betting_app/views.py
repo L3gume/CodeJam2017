@@ -39,13 +39,25 @@ def register_bets(request):
     players = Player.objects.all()
     bets_amount = json.loads(request.body.decode('utf-8'))['bets']
     team_bet = json.loads(request.body.decode('utf-8'))['team_bet']
+    compute_match()
+
+    total_pot = 0
+    for bet in bets_amount:
+        total_pot += bet
     
+    total_winners=0
     for player in players:
-        betting.place_bet(player, bets_amount[player.pid], team_bet[player.pid])
-        betting.resolve_bet(player, winner, odds[0])
+        team = t1 if (team_bet[player.id] == 0) else t2
+        betting.place_bet(player, bets_amount[player.pid], team)
+        print (player)
+        player.save()
+        total_winners += 1
+    for player in players:
+        betting.resolve_bet(player, winner, total_pot/total_winners)
+        print (player)
         player.save()
     
-    compute_match()
+    
     return HttpResponse("Success")
 
 def compute_match():
