@@ -32,7 +32,24 @@ evan
     </div>
 
     <div id="baseballStandings" >
-sucks
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Team</th>
+                    <th>Raning</th>
+                    <th>Win</th>
+                    <th>Loss</th>
+                </tr>
+            </thead>
+            </tbody>
+                {% for team in teams %}
+                <tr>
+                    <td>{{ team.team_id }}</td>
+                    <td>{{ team. }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 
     <script>
