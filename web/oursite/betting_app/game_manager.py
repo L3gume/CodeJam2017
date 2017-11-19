@@ -137,4 +137,4 @@ class game_manager:
     # Returns a value between 0 and 1, representing the odds of a team winning
     # TODO: tune it to better reflect the odds of a team winning the game
     def sigmoid(self, _arg):
-        return 1.00 * (1 / (1 + math.exp(-_arg)))
+        return  (1 / (1 + math.exp(-(_arg/4))))
