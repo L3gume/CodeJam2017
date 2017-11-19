@@ -7,7 +7,7 @@ def place_bet(player, amount, team):
 
 def resolve_bet(player, winning_team, return_factor):
     if(player.team_bet == winning_team):
-        player.wallet *= return_factor
+        player.wallet += return_factor
         player.wins +=1
     else:
         player.losses +=1
