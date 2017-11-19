@@ -14,7 +14,7 @@ class Player(models.Model):
         return "PID: {}\n# Wins: {}\n# Loses: {}\nWallet: {}\nAmount Bet: {}\nTeam Bet: {}\n".format(self.pid, self.wins, self.losses, self.wallet, self.amount_bet, self.team_bet)
 
     class Meta:
-        ordering = ('wallet',)
+        ordering = ('-wallet',)
 
 class Team(models.Model):
     team_name = models.CharField(max_length = 30, default = "")
@@ -27,5 +27,5 @@ class Team(models.Model):
         return 0
 
     class Meta:
-        ordering = ('rank',)
+        ordering = ('-rank',)
         
