@@ -19,8 +19,8 @@ t1 = team_data.team_data(0, "", 0, 0, 0)
 global t2
 t2 = team_data.team_data(0, "", 0, 0, 0)
 def index(request):
+    global t1, t2, odds
     bidders = Player.objects.all()
-
     bidders_by_id = Player.objects.all().order_by('pid')
     teams = Team.objects.all()
     return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id, 't1' : t1.team_id, 't2' : t2.team_id, 'odds0' : odds[0], 'odds1': odds[1]})
@@ -36,6 +36,7 @@ def confirm_players(request):
         p.save()
     Team.objects.all().delete()
     gm.start_new_season(year)
+    global t1, t2, odds
     t1, t2, odds = gm.new_match()
     return HttpResponse("Success")
 
@@ -43,7 +44,7 @@ def register_bets(request):
     players = Player.objects.all()
     bets_amount = json.loads(request.body.decode('utf-8'))['bets']
     team_bet = json.loads(request.body.decode('utf-8'))['team_bet']
-
+    global t1, t2, odds
     gm.play_match(t1, t2, odds)
     total_pot = 0
     for bet in bets_amount:
