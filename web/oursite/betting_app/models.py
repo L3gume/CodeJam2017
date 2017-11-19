@@ -2,13 +2,13 @@ from django.db import models
 
 class Player(models.Model):
 
-    pid = models.IntegerField()
-    wins = models.IntegerField()
-    losses = models.IntegerField()
-    wallet = models.IntegerField()
-    amount_bet = models.IntegerField()
-    team_bet = models.CharField(max_length = 3)
-    player_name = models.CharField(max_length = 32)
+    pid = models.IntegerField(default = 0)
+    player_name = models.CharField(max_length = 32, default = "")
+    wins = models.IntegerField(default = 0)
+    losses = models.IntegerField(default = 0)
+    wallet = models.IntegerField(default = 0)
+    amount_bet = models.IntegerField(default = 0)
+    team_bet = models.CharField(max_length = 3, default = "")
 
     # def __init__(self, PID=0, wins=0, loses=0, wallet=100, amount_bet=0, team_bet=""):
     #     self.PID = PID   #The player's ID
@@ -29,3 +29,4 @@ class Team(models.Model):
 
     def team_id_to_str(self):
         return 0
+        
