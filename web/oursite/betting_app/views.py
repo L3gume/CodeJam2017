@@ -10,17 +10,17 @@ import game_manager
 
 gm = game_manager.game_manager()
 year = 2016
-
+winner = ""
+odds =(0,0)
 def index(request):
     bidders = Player.objects.all()
     #bidders_by_id = sorted(bidders, key=sort_player)
+
     bidders_by_id = Player.objects.all().order_by('-pid')
     teams = Team.objects.all()
-    return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id})
-def bidding(request):
     t1, t2 = gm.new_match()
-    winner, loser, odds()
-    return render(request, "index.html")
+    winner, loser, odds = gm.play_match(t1, t2)
+    return render(request, 'index.html', {'bidders' : bidders, 'teams' : teams, 'bidders_by_id' : bidders_by_id})
 def start_league(request):
     return render(request, 'start.html')
 
@@ -42,4 +42,5 @@ def register_bets(request):
     
     for player in players:
         betting.place_bet(player, bets_amount[player.pid], team_bet[player.pid])
-        betting.resolve_bet(player, winning_team, return_factor)
+        betting.resolve_bet(player, winner, odds[0])
+        player.save()
