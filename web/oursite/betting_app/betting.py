@@ -1,4 +1,5 @@
 from betting_app.models import Player
+import team_data
 
 def place_bet(player, amount, team):
     player.wallet -= amount
